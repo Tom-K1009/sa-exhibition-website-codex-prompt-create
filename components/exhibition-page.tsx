@@ -24,6 +24,9 @@ import {
 } from "framer-motion";
 import { useEffect, useState } from "react";
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+const assetPath = (path: string) => `${basePath}${path}`;
+
 const navItems = [
   "Home",
   "About",
@@ -58,27 +61,27 @@ const screeningWorks: ScreeningWork[] = [
 
 const galleryItems = [
   {
-    src: "/tokyo-flash-mv.png",
+    src: assetPath("/tokyo-flash-mv.png"),
     caption: "Location study and visual planning"
   },
   {
-    src: "/tokyo-flash-mv.png",
+    src: assetPath("/tokyo-flash-mv.png"),
     caption: "Music video production"
   },
   {
-    src: "/shooting-stars-film.png",
+    src: assetPath("/shooting-stars-film.png"),
     caption: "Short film production"
   },
   {
-    src: "/tokyo-flash-mv.png",
+    src: assetPath("/tokyo-flash-mv.png"),
     caption: "Lighting and camera test"
   },
   {
-    src: "/shooting-stars-film.png",
+    src: assetPath("/shooting-stars-film.png"),
     caption: "On-set direction"
   },
   {
-    src: "/tokyo-flash-mv.png",
+    src: assetPath("/tokyo-flash-mv.png"),
     caption: "Editing and post-production"
   }
 ];
@@ -238,10 +241,10 @@ const secretFutureSections = [
 ];
 
 const offshotVideos = [
-  { src: "/offshots/offshot-peace.mp4", label: "Peace" },
-  { src: "/offshots/offshot-gif.mp4", label: "GIF" },
-  { src: "/offshots/offshot-Rec.mp4", label: "Rec" },
-  { src: "/offshots/offshot-walk.mp4", label: "Walk" }
+  { src: assetPath("/offshots/offshot-peace.mp4"), label: "Peace" },
+  { src: assetPath("/offshots/offshot-gif.mp4"), label: "GIF" },
+  { src: assetPath("/offshots/offshot-Rec.mp4"), label: "Rec" },
+  { src: assetPath("/offshots/offshot-walk.mp4"), label: "Walk" }
 ];
 
 export default function ExhibitionPage() {
@@ -383,7 +386,7 @@ export default function ExhibitionPage() {
       <section id="home" className="relative flex min-h-screen items-center overflow-hidden pt-28">
         <motion.div style={{ y: heroY, opacity: heroOpacity }} className="absolute inset-0">
           <Image
-            src="/tokyo-flash-mv.png"
+            src={assetPath("/tokyo-flash-mv.png")}
             alt=""
             fill
             priority
@@ -940,7 +943,7 @@ export default function ExhibitionPage() {
                 <X className="h-4 w-4" />
               </button>
               <Image
-                src="/secret/maki-meme.jpg"
+                src={assetPath("/secret/maki-meme.jpg")}
                 alt="Maki meme with the caption You fell for it, guys!!"
                 width={2304}
                 height={3072}

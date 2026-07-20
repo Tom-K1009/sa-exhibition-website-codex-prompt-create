@@ -15,7 +15,9 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://sa-exhibition-2026.example.com"),
+  metadataBase: new URL(
+    "https://tom-k1009.github.io/sa-exhibition-website-codex-prompt-create/"
+  ),
   title: "SA Exhibition 2026 | Digital Hollywood University",
   description:
     "SA Exhibition 2026 is a premium student showcase from Digital Hollywood University featuring English storytelling through film, music video, and digital media.",
@@ -32,7 +34,9 @@ export const metadata: Metadata = {
     description:
       "Discover Creativity. Share Stories. Experience Inspiration.",
     type: "website",
-    images: ["/hero-skyline.png"]
+    images: [
+      "https://tom-k1009.github.io/sa-exhibition-website-codex-prompt-create/hero-skyline.png"
+    ]
   }
 };
 
