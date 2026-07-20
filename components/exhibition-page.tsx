@@ -1,0 +1,956 @@
+"use client";
+
+import Image from "next/image";
+import {
+  ArrowUpRight,
+  CalendarDays,
+  Clock3,
+  ExternalLink,
+  GraduationCap,
+  MapPin,
+  Play,
+  Ticket,
+  Languages,
+  Users,
+  X
+} from "lucide-react";
+import {
+  AnimatePresence,
+  motion,
+  type Variants,
+  useMotionValueEvent,
+  useScroll,
+  useTransform
+} from "framer-motion";
+import { useEffect, useState } from "react";
+
+const navItems = [
+  "Home",
+  "About",
+  "Works",
+  "Making",
+  "PV",
+  "Information",
+  "Class"
+];
+
+type ScreeningWork = {
+  id: string;
+  category: string;
+  title: string;
+  videoSrc: string | null;
+};
+
+const screeningWorks: ScreeningWork[] = [
+  {
+    id: "SA—F01",
+    category: "Short Film",
+    title: "Meteor",
+    videoSrc: null
+  },
+  {
+    id: "SA—MV01",
+    category: "Music Video",
+    title: "MV",
+    videoSrc: null
+  }
+];
+
+const galleryItems = [
+  {
+    src: "/tokyo-flash-mv.png",
+    caption: "Location study and visual planning"
+  },
+  {
+    src: "/tokyo-flash-mv.png",
+    caption: "Music video production"
+  },
+  {
+    src: "/shooting-stars-film.png",
+    caption: "Short film production"
+  },
+  {
+    src: "/tokyo-flash-mv.png",
+    caption: "Lighting and camera test"
+  },
+  {
+    src: "/shooting-stars-film.png",
+    caption: "On-set direction"
+  },
+  {
+    src: "/tokyo-flash-mv.png",
+    caption: "Editing and post-production"
+  }
+];
+
+const schedule = [
+  ["Opening", "Welcome and introduction to SA Exhibition 2026"],
+  ["Presentations", "Student-led English presentations and production notes"],
+  ["Film Screening", "Featured screening of the Shooting Star short film"],
+  ["Music Video Screening", "Premiere of the Tokyo Flash inspired music video"],
+  ["Closing Ceremony", "Reflections, acknowledgements, and final message"]
+];
+
+const information = [
+  {
+    icon: CalendarDays,
+    label: "Date",
+    value: "To be announced"
+  },
+  {
+    icon: Clock3,
+    label: "Time",
+    value: "To be announced"
+  },
+  {
+    icon: Ticket,
+    label: "Admission",
+    value: "Free"
+  },
+  {
+    icon: MapPin,
+    label: "Place",
+    value: "Digital Hollywood University"
+  },
+  {
+    icon: Languages,
+    label: "Language",
+    value: "English"
+  }
+];
+
+const universityInformation = [
+  ["University", "Digital Hollywood University"],
+  ["Campus", "Ochanomizu, Tokyo"],
+  ["Focus", "Digital content and creative education"]
+];
+
+const fadeIn: Variants = {
+  hidden: { opacity: 0, y: 28 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.72, ease: "easeOut" }
+  }
+};
+
+function SectionTitle({
+  index,
+  eyebrow,
+  title,
+  body
+}: {
+  index: string;
+  eyebrow: string;
+  title: string;
+  body?: string;
+}) {
+  return (
+    <motion.div
+      className="mb-16 grid gap-5 border-t border-white/12 pt-5 md:grid-cols-[96px_1fr] md:gap-8"
+      variants={fadeIn}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-120px" }}
+    >
+      <p className="type-index font-display text-[11px] font-medium text-white/36">
+        {index} / 05
+      </p>
+      <div>
+        <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.06em] text-aurora">
+          {eyebrow}
+        </p>
+        <h2 className="max-w-4xl font-display text-4xl font-medium leading-[0.96] text-white sm:text-6xl">
+          {title}
+        </h2>
+        {body ? (
+          <p className="mt-6 max-w-2xl text-base leading-7 text-white/58 sm:text-lg sm:leading-8">
+            {body}
+          </p>
+        ) : null}
+      </div>
+    </motion.div>
+  );
+}
+
+function PassingLight() {
+  return (
+    <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-20 overflow-hidden">
+      <motion.span
+        className="absolute left-[-140px] top-[34%] h-px w-24 bg-gradient-to-r from-transparent via-white/40 to-transparent"
+        animate={{ x: [0, "calc(100vw + 280px)"], opacity: [0, 0.5, 0.5, 0] }}
+        transition={{ duration: 0.65, repeat: Infinity, repeatDelay: 18, ease: "linear" }}
+      />
+    </div>
+  );
+}
+
+function HiddenStar({
+  id,
+  found,
+  className,
+  onFind
+}: {
+  id: number;
+  found: boolean;
+  className: string;
+  onFind: (id: number) => void;
+}) {
+  return (
+    <div className={`absolute z-20 ${className}`}>
+      <AnimatePresence>
+        {!found ? (
+          <motion.button
+            key={`hidden-star-${id}`}
+            type="button"
+            aria-label={`Hidden star ${id} of 3`}
+            className="group grid h-10 w-10 place-items-center rounded-full text-white/30 outline-none focus-visible:ring-1 focus-visible:ring-aurora"
+            initial={{ opacity: 0.62 }}
+            animate={{ opacity: [0.52, 0.9, 0.52] }}
+            exit={{
+              opacity: [0.35, 0.8, 0],
+              scale: [1, 3.2, 3.8],
+              filter: ["blur(0px)", "blur(1px)", "blur(4px)"],
+              transition: { duration: 0.55, ease: "easeOut" }
+            }}
+            transition={{
+              opacity: { duration: 4.8, repeat: Infinity, ease: "easeInOut" }
+            }}
+            whileHover={{ opacity: 1 }}
+            whileTap={{ opacity: 1 }}
+            onClick={() => onFind(id)}
+          >
+            <span className="relative h-[5px] w-[5px] rounded-full bg-white shadow-[0_0_5px_rgba(255,255,255,0.9),0_0_14px_rgba(255,255,255,0.38)] transition group-hover:shadow-[0_0_7px_rgba(255,255,255,1),0_0_20px_rgba(255,255,255,0.58)]">
+              <span className="absolute left-1/2 top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/10 blur-[3px]" />
+            </span>
+          </motion.button>
+        ) : null}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+const secretFutureSections = [
+  "Behind-the-scenes photos",
+  "Offshots",
+  "Unused ideas",
+  "Member comments"
+];
+
+const offshotVideos = [
+  { src: "/offshots/offshot-peace.mp4", label: "Peace" },
+  { src: "/offshots/offshot-gif.mp4", label: "GIF" },
+  { src: "/offshots/offshot-Rec.mp4", label: "Rec" },
+  { src: "/offshots/offshot-walk.mp4", label: "Walk" }
+];
+
+export default function ExhibitionPage() {
+  const [scrolled, setScrolled] = useState(false);
+  const [foundStars, setFoundStars] = useState<number[]>([]);
+  const [completionDismissed, setCompletionDismissed] = useState(false);
+  const [secretOpen, setSecretOpen] = useState(false);
+  const [memeOpen, setMemeOpen] = useState(false);
+  const { scrollY } = useScroll();
+  const heroY = useTransform(scrollY, [0, 700], [0, 70]);
+  const heroOpacity = useTransform(scrollY, [0, 620], [0.92, 0.42]);
+  const foundCount = foundStars.length;
+  const allFound = foundCount === 3;
+  const showCompletion = allFound && !completionDismissed && !secretOpen;
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    setScrolled(latest > 32);
+  });
+
+  useEffect(() => {
+    if (!showCompletion && !secretOpen && !memeOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      if (memeOpen) {
+        setMemeOpen(false);
+      } else if (secretOpen) {
+        setSecretOpen(false);
+      }
+    };
+    window.addEventListener("keydown", closeOnEscape);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [memeOpen, secretOpen, showCompletion]);
+
+  const findStar = (id: number) => {
+    setFoundStars((current) => {
+      if (current.includes(id)) return current;
+      return [...current, id];
+    });
+  };
+
+  const viewSecret = () => {
+    setCompletionDismissed(true);
+    setSecretOpen(true);
+  };
+
+  const resetDiscovery = () => {
+    setFoundStars([]);
+    setCompletionDismissed(false);
+    setSecretOpen(false);
+    setMemeOpen(false);
+  };
+
+  return (
+    <main className="relative overflow-hidden bg-ink text-pearl">
+      <PassingLight />
+      <motion.header
+        className={`fixed left-1/2 top-4 z-50 w-[calc(100%-32px)] max-w-[1040px] -translate-x-1/2 rounded-[8px] px-3 py-2 transition-all duration-300 sm:top-6 sm:w-[calc(100%-48px)] sm:px-4 ${
+          scrolled ? "glass" : "border border-white/10 bg-ink/40 backdrop-blur-md"
+        }`}
+        initial={{ opacity: 0, y: -18 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7 }}
+      >
+        <nav className="flex items-center justify-between gap-3" aria-label="Primary navigation">
+          <a href="#home" className="flex h-10 items-center gap-2 px-1 font-display text-[13px] font-semibold">
+            <span className="grid h-7 w-7 place-items-center rounded-[6px] bg-white text-[11px] text-ink">
+              SA
+            </span>
+            <span className="hidden sm:inline">SA Exhibition</span>
+          </a>
+          <div className="hidden items-center gap-1 lg:flex">
+            {navItems.map((item) => (
+              <a
+                key={item}
+                href={`#${item.toLowerCase()}`}
+                className="inline-flex h-10 items-center rounded-[6px] px-2.5 text-xs text-white/62 transition hover:bg-white/8 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-aurora"
+              >
+                {item}
+              </a>
+            ))}
+          </div>
+          <a
+            href="#works"
+            className="group inline-flex h-9 items-center gap-1.5 rounded-[6px] bg-white px-3 text-xs font-semibold text-ink transition hover:bg-aurora focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+          >
+            View
+            <ArrowUpRight className="h-4 w-4 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          </a>
+        </nav>
+      </motion.header>
+
+      <motion.div
+        className="fixed right-1 top-1/2 z-40 flex -translate-y-1/2 flex-col items-end px-2 py-2 font-sans text-[10px] font-medium tracking-[0.08em] text-white/36 sm:right-3"
+        aria-live="polite"
+        initial={{ opacity: 0, x: 12 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.8, duration: 0.5 }}
+      >
+        <span className="flex items-center">
+          FOUND&nbsp;
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.span
+              key={foundCount}
+              className="type-index inline-block min-w-[1.25em] text-right text-white/60"
+              initial={{ opacity: 0, y: -3 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 3 }}
+              transition={{ duration: 0.2 }}
+            >
+              {String(foundCount).padStart(2, "0")}
+            </motion.span>
+          </AnimatePresence>
+          —03
+        </span>
+        <AnimatePresence>
+          {foundCount > 0 ? (
+            <motion.button
+              type="button"
+              className="mt-2 border-b border-white/15 pb-0.5 text-[9px] font-medium tracking-[0.06em] text-white/32 transition hover:border-white/45 hover:text-white/72 focus:outline-none focus-visible:ring-1 focus-visible:ring-white/60"
+              initial={{ opacity: 0, y: -3 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -3 }}
+              onClick={resetDiscovery}
+            >
+              RESET
+            </motion.button>
+          ) : null}
+        </AnimatePresence>
+      </motion.div>
+
+      <section id="home" className="relative flex min-h-screen items-center overflow-hidden pt-28">
+        <motion.div style={{ y: heroY, opacity: heroOpacity }} className="absolute inset-0">
+          <Image
+            src="/tokyo-flash-mv.png"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover opacity-[0.14] grayscale"
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,10,10,0.72)_0%,rgba(10,10,10,0.58)_48%,rgba(10,10,10,1)_100%)]" />
+        </motion.div>
+        <div className="section-shell relative z-10 pb-16 pt-20">
+          <motion.div
+            className="max-w-5xl"
+            initial={{ opacity: 0, y: 36 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <p className="mb-8 inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.06em] text-white/56">
+              <span className="h-px w-5 bg-white/50" aria-hidden="true" />
+              Digital Hollywood University
+            </p>
+            <div className="relative w-fit max-w-full pb-3 pr-0 sm:pr-24">
+              <h1 className="font-display text-5xl font-medium uppercase leading-[0.84] text-white sm:text-7xl lg:text-[7.5rem]">
+                <span className="block">SA</span>
+                <span className="block">Exhibition</span>
+              </h1>
+              <p className="type-index mt-5 font-display text-[11px] font-medium text-white/42 sm:absolute sm:bottom-4 sm:right-0 sm:mt-0">
+                2026 / SA—01
+              </p>
+            </div>
+            <p className="mt-8 max-w-xl border-l border-white/20 pl-5 text-lg leading-7 text-white/68 sm:text-xl sm:leading-8">
+              Discover Creativity. Share Stories. Experience Inspiration.
+            </p>
+            <div className="mt-10 flex flex-wrap items-center gap-4">
+              <motion.a
+                href="#about"
+                className="inline-flex h-14 items-center gap-3 rounded-[8px] bg-white px-6 font-semibold text-ink shadow-glow transition focus:outline-none focus-visible:ring-2 focus-visible:ring-aurora"
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                Explore Exhibition
+                <ArrowUpRight className="h-5 w-5" />
+              </motion.a>
+              <span className="text-sm text-white/58">
+                Date, time and place will be announced soon.
+              </span>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      <section id="about" className="relative py-24">
+        <HiddenStar
+          id={1}
+          found={foundStars.includes(1)}
+          className="bottom-[12%] right-[8%] sm:right-[12%]"
+          onFind={findStar}
+        />
+        <div className="section-shell grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+          <motion.div
+            variants={fadeIn}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-120px" }}
+          >
+            <p className="mb-5 text-[11px] font-medium uppercase tracking-[0.06em] text-aurora">
+              00 / About
+            </p>
+            <h2 className="font-display text-4xl font-medium leading-[0.96] text-white sm:text-6xl">
+              <span className="block">Visual stories,</span>
+              <span className="block text-white/58">presented in English.</span>
+            </h2>
+          </motion.div>
+          <motion.div
+            className="glass rounded-[8px] p-7 sm:p-10"
+            variants={fadeIn}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-120px" }}
+          >
+            <p className="text-lg leading-9 text-white/74">
+              SA Exhibition is a creative showcase where students of Digital
+              Hollywood University present visual storytelling projects in
+              English through filmmaking, music videos, and digital media.
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      <section id="works" className="py-24">
+        <div className="section-shell">
+          <SectionTitle index="01" eyebrow="Works" title="Film & Music Video" />
+          <div className="grid gap-10 lg:grid-cols-2">
+            {screeningWorks.map((work, index) => (
+              <motion.article
+                key={work.id}
+                className="border-t border-white/14 pt-4"
+                variants={fadeIn}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <div className="mb-5 flex items-start justify-between gap-5">
+                  <div>
+                    <p className="text-[11px] font-medium uppercase tracking-[0.05em] text-aurora">
+                      {work.category}
+                    </p>
+                    <h3 className="mt-2 font-display text-2xl font-medium leading-tight text-white sm:text-3xl">
+                      {work.title}
+                    </h3>
+                  </div>
+                  <p className="type-index text-[10px] text-white/30">{work.id}</p>
+                </div>
+
+                <div className="relative aspect-video overflow-hidden bg-[#0d0d0d]">
+                  {work.videoSrc ? (
+                    <video
+                      className="h-full w-full object-contain"
+                      controls
+                      playsInline
+                      preload="metadata"
+                      aria-label={`${work.category}: ${work.title}`}
+                    >
+                      <source src={work.videoSrc} type="video/mp4" />
+                      Your browser does not support this video.
+                    </video>
+                  ) : (
+                    <div className="absolute inset-0 grid place-items-center">
+                      <div className="text-center">
+                        <Play className="mx-auto h-5 w-5 text-white/28" aria-hidden="true" />
+                        <p className="mt-4 text-[10px] font-medium uppercase tracking-[0.05em] text-white/34">
+                          Coming soon
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </motion.article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="making" className="py-24">
+        <div className="section-shell">
+          <SectionTitle
+            index="02"
+            eyebrow="Behind the Scenes"
+            title="Pictures from the making process."
+            body="Production photographs will document planning, filming, direction, and editing by the SA English Class."
+          />
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {galleryItems.map((item, index) => (
+              <motion.figure
+                key={`${item.caption}-${index}`}
+                className="group relative aspect-[4/3] overflow-hidden rounded-[8px] bg-white/5"
+                variants={fadeIn}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+              >
+                <Image
+                  src={item.src}
+                  alt={item.caption}
+                  fill
+                  sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                  className="object-cover transition duration-700 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-ink/0 backdrop-blur-0 transition duration-500 group-hover:bg-ink/42 group-hover:backdrop-blur-sm" />
+                <figcaption className="absolute inset-x-0 bottom-0 translate-y-3 p-5 text-sm font-semibold text-white opacity-0 transition duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+                  {item.caption}
+                </figcaption>
+              </motion.figure>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="pv" className="py-24">
+        <div className="section-shell">
+          <SectionTitle
+            index="03"
+            eyebrow="Exhibition PV"
+            title="One preview for the complete exhibition."
+            body="The general promotional video will introduce both featured works and the students behind the exhibition."
+          />
+          <motion.div
+            className="relative mx-auto aspect-video max-w-5xl overflow-hidden rounded-[8px] border border-white/10 bg-white/[0.035]"
+            variants={fadeIn}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-120px" }}
+          >
+            <div className="absolute inset-0 bg-[#0d0d0d]" />
+            <div className="absolute left-[12%] top-1/2 h-px w-[76%] bg-white/[0.06]" />
+            <div className="absolute inset-0 grid place-items-center text-center">
+              <div>
+                <span className="mx-auto grid h-16 w-16 place-items-center rounded-full border border-white/25 bg-white/10 text-white backdrop-blur">
+                  <Play className="ml-1 h-7 w-7" />
+                </span>
+                <p className="mt-5 text-[11px] font-medium uppercase tracking-[0.05em] text-white/60">
+                  General PV coming soon
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      <section id="schedule" className="py-24">
+        <div className="section-shell">
+          <SectionTitle index="04" eyebrow="Schedule" title="Program" />
+          <div className="mx-auto max-w-3xl">
+            {schedule.map(([title, detail], index) => (
+              <motion.div
+                key={title}
+                className="relative grid grid-cols-[64px_1fr] gap-4 pb-10 last:pb-0 sm:gap-6"
+                variants={fadeIn}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+              >
+                <div className="relative">
+                  <div className="type-index flex h-12 items-center font-display text-[10px] font-medium text-white/42">
+                    SA—{String(index + 1).padStart(2, "0")}
+                  </div>
+                  {index < schedule.length - 1 ? (
+                    <div className="absolute left-0 top-12 h-full w-px bg-white/10" />
+                  ) : null}
+                </div>
+                <div className="glass rounded-[8px] p-6">
+                  <h3 className="font-display text-2xl font-medium leading-tight text-white">{title}</h3>
+                  <p className="mt-2 leading-7 text-white/62">{detail}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="information" className="relative py-24">
+        <HiddenStar
+          id={2}
+          found={foundStars.includes(2)}
+          className="left-[4%] top-24 sm:left-[8%]"
+          onFind={findStar}
+        />
+        <div className="section-shell">
+          <SectionTitle index="05" eyebrow="Information" title="Event details." />
+          <motion.div
+            className="glass grid gap-4 rounded-[8px] p-5 sm:grid-cols-2 lg:grid-cols-5"
+            variants={fadeIn}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-120px" }}
+          >
+            {information.map((item, index) => {
+              const Icon = item.icon;
+              return (
+                <div key={item.label} className="rounded-[8px] border border-white/10 bg-white/[0.04] p-5">
+                  <Icon className="mb-5 h-5 w-5 text-aurora" aria-hidden="true" />
+                  <div className="flex items-baseline justify-between gap-3">
+                    <p className="text-[11px] font-medium uppercase tracking-[0.05em] text-white/42">
+                      {item.label}
+                    </p>
+                    <p className="type-index font-display text-[10px] text-white/24">0{index + 1}</p>
+                  </div>
+                  <p className="mt-3 font-display text-lg font-medium leading-6 text-white">
+                    {item.value}
+                  </p>
+                </div>
+              );
+            })}
+          </motion.div>
+          <motion.div
+            className="mt-8 flex flex-col items-start justify-between gap-5 rounded-[8px] border border-white/10 bg-white/[0.04] p-6 sm:flex-row sm:items-center"
+            variants={fadeIn}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-120px" }}
+          >
+            <p className="max-w-2xl text-sm leading-7 text-white/62">
+              For more information about the university, please visit the official website.
+            </p>
+            <motion.a
+              href="https://www.dhw.ac.jp/"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex h-12 items-center gap-2 rounded-[8px] bg-white px-5 text-sm font-semibold text-ink transition hover:bg-aurora focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              Visit Digital Hollywood University
+              <ExternalLink className="h-4 w-4" />
+            </motion.a>
+          </motion.div>
+          <motion.div
+            className="mt-5 grid gap-px overflow-hidden rounded-[8px] border border-white/10 bg-white/10 md:grid-cols-3"
+            variants={fadeIn}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-120px" }}
+          >
+            {universityInformation.map(([label, value], index) => (
+              <div key={label} className="bg-ink p-6">
+                {index === 0 ? (
+                  <GraduationCap className="mb-5 h-5 w-5 text-aurora" aria-hidden="true" />
+                ) : null}
+                <p className="text-[11px] font-medium uppercase tracking-[0.05em] text-white/42">
+                  {label}
+                </p>
+                <p className="mt-2 leading-7 text-white/76">{value}</p>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      <section id="class" className="py-24">
+        <div className="section-shell">
+          <motion.div
+            className="relative overflow-hidden rounded-[8px] border border-white/12 bg-white text-ink"
+            variants={fadeIn}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-120px" }}
+          >
+            <div className="absolute right-0 top-0 h-64 w-64 bg-aurora/30 blur-3xl" />
+            <div className="relative grid gap-8 p-8 sm:p-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+              <div>
+                <p className="mb-5 text-[11px] font-medium uppercase tracking-[0.05em] text-midnight/56">
+                  SA—06 / Class Information
+                </p>
+                <h2 className="font-display text-4xl font-medium leading-[0.96] sm:text-6xl">
+                  <span className="block">Created by students,</span>
+                  <span className="block text-midnight/54">together.</span>
+                </h2>
+                <p className="mt-5 max-w-xl text-lg leading-8 text-midnight/68">
+                  SA English Class students planned and produced the exhibition,
+                  from visual storytelling and filming to English presentations.
+                </p>
+              </div>
+              <div className="rounded-[8px] border border-ink/10 bg-ink p-6 text-white">
+                <Users className="mb-5 h-6 w-6 text-aurora" aria-hidden="true" />
+                <p className="text-[11px] uppercase tracking-[0.05em] text-white/44">
+                  Organized by
+                </p>
+                <p className="mt-3 text-2xl font-semibold">SA English Class</p>
+                <p className="mt-2 text-white/58">Digital Hollywood University</p>
+                <p className="mt-5 border-t border-white/10 pt-5 text-sm leading-6 text-white/54">
+                  Member profiles and individual roles will be added here.
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      <footer className="relative border-t border-white/10 py-10">
+        <HiddenStar
+          id={3}
+          found={foundStars.includes(3)}
+          className="bottom-4 right-[16%] sm:right-[20%]"
+          onFind={findStar}
+        />
+        <div className="section-shell flex flex-col gap-4 text-sm text-white/54 sm:flex-row sm:items-center sm:justify-between">
+          <p className="font-display font-medium uppercase leading-tight text-white">
+            <span className="block">SA</span>
+            <span className="block">Exhibition 2026</span>
+          </p>
+          <p>Digital Hollywood University</p>
+          <p>Designed and Developed by SA English Class</p>
+        </div>
+      </footer>
+
+      <AnimatePresence>
+        {showCompletion ? (
+          <motion.div
+            className="fixed inset-0 z-[80] grid place-items-center bg-[#080808] px-6 text-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.8, ease: "easeInOut" }}
+          >
+            <div className="max-w-3xl">
+              <motion.p
+                className="font-sans text-sm font-medium tracking-[0.06em] text-white/88 sm:text-base"
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.2, duration: 1.2 }}
+              >
+                YOU FOUND SOMETHING.
+              </motion.p>
+              <motion.p
+                className="mt-6 text-xs font-normal tracking-[0.05em] text-white/48"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 2.6, duration: 1.2 }}
+              >
+                BEHIND SA EXHIBITION
+              </motion.p>
+              <motion.button
+                type="button"
+                className="mt-12 h-11 rounded-[4px] border border-white/20 px-5 text-[11px] font-medium tracking-[0.06em] text-white/75 transition hover:border-white/45 hover:bg-white hover:text-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 3.8, duration: 0.8 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={viewSecret}
+              >
+                VIEW SECRET
+              </motion.button>
+              <motion.button
+                type="button"
+                className="mx-auto mt-5 block border-b border-white/15 pb-1 text-[10px] font-medium tracking-[0.05em] text-white/34 transition hover:border-white/45 hover:text-white/70 focus:outline-none focus-visible:ring-1 focus-visible:ring-white/60"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 4.2, duration: 0.6 }}
+                onClick={resetDiscovery}
+              >
+                RESET EXPERIENCE
+              </motion.button>
+            </div>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {secretOpen ? (
+          <motion.div
+            className="fixed inset-0 z-[90] overflow-y-auto bg-[#050505] px-4 py-8 sm:px-8 sm:py-14"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="secret-title"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.7 }}
+          >
+            <motion.div
+              className="mx-auto max-w-4xl border-y border-white/16 bg-[#050505] py-10 sm:py-16"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.25, duration: 0.8 }}
+            >
+              <div className="flex items-start justify-between gap-6">
+                <div>
+                  <p className="text-xs font-medium tracking-[0.06em] text-white/42">SECRET 01</p>
+                  <h2 id="secret-title" className="mt-5 max-w-2xl font-display text-3xl font-medium leading-tight text-white sm:text-5xl">
+                    BEHIND THE EXHIBITION
+                  </h2>
+                </div>
+                <button
+                  type="button"
+                  aria-label="Close secret"
+                  className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/15 text-white/60 transition hover:border-white/40 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-aurora"
+                  onClick={() => {
+                    setMemeOpen(false);
+                    setSecretOpen(false);
+                  }}
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+
+              <div className="mt-14 max-w-xl space-y-7 text-lg leading-8 text-white/66">
+                <p>This exhibition was created by SA.</p>
+                <p>
+                  Some ideas disappeared.<br />
+                  Some scenes changed.<br />
+                  Some moments remained.
+                </p>
+                <p className="font-display font-semibold text-white">SA EXHIBITION 2026</p>
+              </div>
+
+              <div className="mt-16 grid gap-px overflow-hidden rounded-[8px] border border-white/10 bg-white/10 sm:grid-cols-2">
+                {secretFutureSections.map((section, index) => (
+                  <div
+                    key={section}
+                    className={`relative min-h-36 bg-[#0a0a0a] p-6 ${section === "Offshots" ? "sm:col-span-2" : ""}`}
+                  >
+                    {section === "Unused ideas" ? (
+                      <motion.button
+                        type="button"
+                        aria-label="Open secret 02"
+                        className="group absolute right-3 top-3 grid h-10 w-10 place-items-center rounded-full outline-none focus-visible:ring-1 focus-visible:ring-white/60"
+                        animate={{ opacity: [0.5, 0.9, 0.5] }}
+                        transition={{ duration: 4.2, repeat: Infinity, ease: "easeInOut" }}
+                        whileHover={{ opacity: 1 }}
+                        onClick={() => setMemeOpen(true)}
+                      >
+                        <span className="relative h-[5px] w-[5px] rounded-full bg-white shadow-[0_0_5px_rgba(255,255,255,0.9),0_0_14px_rgba(255,255,255,0.38)] transition group-hover:shadow-[0_0_7px_rgba(255,255,255,1),0_0_20px_rgba(255,255,255,0.58)]">
+                          <span className="absolute left-1/2 top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/10 blur-[3px]" />
+                        </span>
+                      </motion.button>
+                    ) : null}
+                    <p className="text-xs tracking-[0.04em] text-white/30">0{index + 1}</p>
+                    <h3 className="mt-8 font-display text-lg font-semibold text-white/72">{section}</h3>
+                    {section === "Offshots" ? (
+                      <div className="mt-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
+                        {offshotVideos.map((video, videoIndex) => (
+                          <figure key={video.src} className="mx-auto w-full max-w-[210px]">
+                            <video
+                              className="aspect-[4/5] w-full bg-black object-contain"
+                              controls
+                              playsInline
+                              preload="metadata"
+                              aria-label={`Offshot ${videoIndex + 1}: ${video.label}`}
+                            >
+                              <source src={video.src} type="video/mp4" />
+                              Your browser does not support this video.
+                            </video>
+                            <figcaption className="mt-2 flex items-center justify-between gap-2 text-[10px] text-white/38">
+                              <span className="type-index">OF—0{videoIndex + 1}</span>
+                              <span>{video.label}</span>
+                            </figcaption>
+                          </figure>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="mt-2 text-xs uppercase tracking-[0.04em] text-white/28">Coming later</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {memeOpen ? (
+          <motion.div
+            className="fixed inset-0 z-[110] grid place-items-center overflow-y-auto bg-black/96 px-5 py-8"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Secret 02"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.45 }}
+          >
+            <motion.div
+              className="relative mx-auto w-full max-w-md"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.18, duration: 0.5 }}
+            >
+              <button
+                type="button"
+                aria-label="Close secret 02"
+                className="absolute right-2 top-2 z-10 grid h-10 w-10 place-items-center rounded-full border border-black/15 bg-white/85 text-black/65 backdrop-blur transition hover:bg-white hover:text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-black"
+                onClick={() => setMemeOpen(false)}
+              >
+                <X className="h-4 w-4" />
+              </button>
+              <Image
+                src="/secret/maki-meme.jpg"
+                alt="Maki meme with the caption You fell for it, guys!!"
+                width={2304}
+                height={3072}
+                sizes="(min-width: 640px) 448px, calc(100vw - 40px)"
+                className="max-h-[calc(100vh-64px)] w-full object-contain"
+              />
+            </motion.div>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
+    </main>
+  );
+}
