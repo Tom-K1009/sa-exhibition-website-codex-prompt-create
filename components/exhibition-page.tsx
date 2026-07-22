@@ -98,12 +98,12 @@ const information = [
   {
     icon: CalendarDays,
     label: "Date",
-    value: "To be announced"
+    value: "August 3, 2026"
   },
   {
     icon: Clock3,
     label: "Time",
-    value: "To be announced"
+    value: "11:55 AM"
   },
   {
     icon: Ticket,
@@ -429,7 +429,7 @@ export default function ExhibitionPage() {
                 <ArrowUpRight className="h-5 w-5" />
               </motion.a>
               <span className="text-sm text-white/58">
-                Date, time and place will be announced soon.
+                August 3, 2026 / 11:55 AM / Digital Hollywood University
               </span>
             </div>
           </motion.div>
