@@ -54,42 +54,42 @@ const screeningWorks: ScreeningWork[] = [
 
 const galleryItems = [
   {
-    src: assetPath("/tokyo-flash-mv.png"),
+    src: assetPath("/tokyo-flash-mv-optimized.webp"),
     caption: "Location study and visual planning"
   },
   {
-    src: assetPath("/tokyo-flash-mv.png"),
+    src: assetPath("/tokyo-flash-mv-optimized.webp"),
     caption: "Music video production"
   },
   {
-    src: assetPath("/shooting-stars-film.png"),
+    src: assetPath("/shooting-stars-film-optimized.webp"),
     caption: "Short film production"
   },
   {
-    src: assetPath("/tokyo-flash-mv.png"),
+    src: assetPath("/tokyo-flash-mv-optimized.webp"),
     caption: "Lighting and camera test"
   },
   {
-    src: assetPath("/shooting-stars-film.png"),
+    src: assetPath("/shooting-stars-film-optimized.webp"),
     caption: "On-set direction"
   },
   {
-    src: assetPath("/tokyo-flash-mv.png"),
+    src: assetPath("/tokyo-flash-mv-optimized.webp"),
     caption: "Editing and post-production"
   }
 ];
 
 const teamPhotos = [
   {
-    src: assetPath("/team/short-film.webp"),
+    src: assetPath("/team/short-film-optimized.webp"),
     label: "Short Film Team"
   },
   {
-    src: assetPath("/team/mv-plus.webp"),
+    src: assetPath("/team/mv-plus-optimized.webp"),
     label: "MV Team"
   },
   {
-    src: assetPath("/team/advertisement.webp"),
+    src: assetPath("/team/advertisement-optimized.webp"),
     label: "Advertisement Team"
   }
 ];
@@ -147,10 +147,33 @@ function PassingLight() {
   return (
     <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-20 overflow-hidden">
       <motion.span
-        className="absolute left-[-140px] top-[34%] h-px w-24 bg-gradient-to-r from-transparent via-white/40 to-transparent"
-        animate={{ x: [0, "calc(100vw + 280px)"], opacity: [0, 0.5, 0.5, 0] }}
-        transition={{ duration: 0.65, repeat: Infinity, repeatDelay: 18, ease: "linear" }}
-      />
+        className="absolute left-[-180px] top-[28%] h-px w-36 origin-right -rotate-[6deg] bg-gradient-to-r from-transparent via-white/35 to-white/90 shadow-[0_0_6px_rgba(255,255,255,0.28)]"
+        animate={{
+          x: [0, "calc(100vw + 360px)"],
+          y: [0, 36],
+          opacity: [0, 0.85, 0.85, 0]
+        }}
+        transition={{ duration: 0.82, repeat: Infinity, repeatDelay: 7.2, ease: "easeOut" }}
+      >
+        <span className="absolute -right-px top-1/2 h-[3px] w-[3px] -translate-y-1/2 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.9)]" />
+      </motion.span>
+      <motion.span
+        className="absolute right-[-150px] top-[68%] h-px w-24 origin-left rotate-[4deg] bg-gradient-to-l from-transparent via-white/28 to-white/72 shadow-[0_0_5px_rgba(255,255,255,0.2)]"
+        animate={{
+          x: [0, "calc(-100vw - 300px)"],
+          y: [0, -24],
+          opacity: [0, 0.62, 0.62, 0]
+        }}
+        transition={{
+          delay: 3.4,
+          duration: 0.68,
+          repeat: Infinity,
+          repeatDelay: 11.5,
+          ease: "easeOut"
+        }}
+      >
+        <span className="absolute -left-px top-1/2 h-[2px] w-[2px] -translate-y-1/2 rounded-full bg-white/90 shadow-[0_0_7px_rgba(255,255,255,0.75)]" />
+      </motion.span>
     </div>
   );
 }
@@ -208,10 +231,26 @@ const secretFutureSections = [
 ];
 
 const offshotVideos = [
-  { src: assetPath("/offshots/offshot-peace.mp4"), label: "Peace" },
-  { src: assetPath("/offshots/offshot-gif.mp4"), label: "GIF" },
-  { src: assetPath("/offshots/offshot-Rec.mp4"), label: "Rec" },
-  { src: assetPath("/offshots/offshot-walk.mp4"), label: "Walk" }
+  {
+    src: assetPath("/offshots/offshot-peace-optimized.mp4"),
+    poster: assetPath("/offshots/offshot-peace-poster.webp"),
+    label: "Peace"
+  },
+  {
+    src: assetPath("/offshots/offshot-gif-optimized.mp4"),
+    poster: assetPath("/offshots/offshot-gif-poster.webp"),
+    label: "GIF"
+  },
+  {
+    src: assetPath("/offshots/offshot-Rec-optimized.mp4"),
+    poster: assetPath("/offshots/offshot-Rec-poster.webp"),
+    label: "Rec"
+  },
+  {
+    src: assetPath("/offshots/offshot-walk-optimized.mp4"),
+    poster: assetPath("/offshots/offshot-walk-poster.webp"),
+    label: "Walk"
+  }
 ];
 
 export default function ExhibitionPage() {
@@ -278,7 +317,9 @@ export default function ExhibitionPage() {
       <PassingLight />
       <motion.header
         className={`fixed inset-x-3 top-3 z-50 mx-auto max-w-[1120px] rounded-[8px] px-3 py-2 transition-all duration-300 sm:inset-x-5 sm:top-5 sm:px-4 ${
-          scrolled ? "glass" : "border border-white/10 bg-ink/40 backdrop-blur-md"
+          scrolled
+            ? "border border-white/10 bg-[#0a0a0a]/85 shadow-[0_18px_60px_rgba(0,0,0,0.32)] backdrop-blur-xl"
+            : "border border-white/10 bg-ink/40 backdrop-blur-md"
         }`}
         initial={{ opacity: 0, y: -18 }}
         animate={{ opacity: 1, y: 0 }}
@@ -366,7 +407,7 @@ export default function ExhibitionPage() {
       </motion.header>
 
       <motion.div
-        className="fixed right-3 top-1/2 z-40 hidden -translate-y-1/2 flex-col items-end px-2 py-2 font-sans text-[10px] font-medium tracking-[0.08em] text-white/36 sm:flex"
+        className="fixed right-4 top-[4.5rem] z-40 flex flex-col items-end rounded-[4px] bg-black/55 px-2 py-2 font-sans text-[9px] font-medium tracking-[0.08em] text-white/42 backdrop-blur-sm sm:right-3 sm:top-1/2 sm:-translate-y-1/2 sm:bg-transparent sm:text-[10px] sm:text-white/36 sm:backdrop-blur-none"
         aria-live="polite"
         initial={{ opacity: 0, x: 12 }}
         animate={{ opacity: 1, x: 0 }}
@@ -407,7 +448,7 @@ export default function ExhibitionPage() {
       <section id="home" className="relative flex min-h-screen items-center overflow-hidden pt-28">
         <motion.div style={{ y: heroY, opacity: heroOpacity }} className="absolute inset-0">
           <Image
-            src={assetPath("/tokyo-flash-mv.png")}
+            src={assetPath("/tokyo-flash-mv-optimized.webp")}
             alt=""
             fill
             priority
@@ -562,6 +603,7 @@ export default function ExhibitionPage() {
                   src={item.src}
                   alt={item.caption}
                   fill
+                  loading="lazy"
                   sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                   className="object-cover transition duration-700 group-hover:scale-110"
                 />
@@ -594,9 +636,10 @@ export default function ExhibitionPage() {
               controls
               playsInline
               preload="metadata"
+              poster={assetPath("/pv/final-pv-poster.webp")}
               aria-label="SA G2 Exhibition 2026 promotional video"
             >
-              <source src={assetPath("/pv/final-pv.mp4")} type="video/mp4" />
+              <source src={assetPath("/pv/final-pv-optimized.mp4")} type="video/mp4" />
               Your browser does not support the video element.
             </video>
           </motion.div>
@@ -618,7 +661,7 @@ export default function ExhibitionPage() {
               >
                 <div className="relative">
                   <div className="type-index flex h-12 items-center font-display text-[10px] font-medium text-white/42">
-                    SA—{String(index + 1).padStart(2, "0")}
+                    {String(index + 1).padStart(2, "0")}
                   </div>
                   {index < schedule.length - 1 ? (
                     <div className="absolute left-0 top-12 h-full w-px bg-white/10" />
@@ -686,10 +729,9 @@ export default function ExhibitionPage() {
                 Production Teams
               </h3>
             </div>
-            <p className="type-index shrink-0 text-[10px] text-white/36">03 GROUPS</p>
           </div>
           <div className="mt-7 grid gap-x-5 gap-y-9 md:grid-cols-2">
-            {teamPhotos.map((photo, index) => (
+            {teamPhotos.map((photo) => (
               <motion.figure
                 key={photo.src}
                 variants={fadeIn}
@@ -702,15 +744,13 @@ export default function ExhibitionPage() {
                     src={photo.src}
                     alt={`${photo.label} group photo`}
                     fill
+                    loading="lazy"
                     sizes="(min-width: 768px) 50vw, 100vw"
                     className="object-cover transition duration-700 hover:scale-[1.015]"
                   />
                 </div>
-                <figcaption className="mt-3 flex items-center justify-between border-t border-white/10 pt-3">
+                <figcaption className="mt-3 border-t border-white/10 pt-3">
                   <span className="text-sm font-medium text-white/78">{photo.label}</span>
-                  <span className="type-index text-[10px] text-white/34">
-                    {String(index + 1).padStart(2, "0")} / 03
-                  </span>
                 </figcaption>
               </motion.figure>
             ))}
@@ -866,7 +906,8 @@ export default function ExhibitionPage() {
                               className="aspect-[4/5] w-full bg-black object-contain"
                               controls
                               playsInline
-                              preload="metadata"
+                              preload="none"
+                              poster={video.poster}
                               aria-label={`Offshot ${videoIndex + 1}: ${video.label}`}
                             >
                               <source src={video.src} type="video/mp4" />
