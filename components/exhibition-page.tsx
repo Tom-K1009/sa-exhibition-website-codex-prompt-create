@@ -47,7 +47,7 @@ const screeningWorks: ScreeningWork[] = [
   {
     id: "SA—MV01",
     category: "Music Video",
-    title: "Title TBA",
+    title: "Tokyo Flash",
     videoSrc: null
   }
 ];
@@ -510,11 +510,7 @@ export default function ExhibitionPage() {
                   <p className="text-[11px] font-medium uppercase tracking-[0.05em] text-aurora">
                     {work.category}
                   </p>
-                  <h3
-                    className={`mt-2 font-display text-2xl font-medium leading-tight sm:text-3xl ${
-                      work.title === "Title TBA" ? "text-white/42" : "text-white"
-                    }`}
-                  >
+                  <h3 className="mt-2 font-display text-2xl font-medium leading-tight text-white sm:text-3xl">
                     {work.title}
                   </h3>
                 </div>
