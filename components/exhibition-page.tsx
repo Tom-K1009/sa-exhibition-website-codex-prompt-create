@@ -427,17 +427,14 @@ export default function ExhibitionPage() {
               <span className="h-px w-5 bg-white/50" aria-hidden="true" />
               Digital Hollywood University
             </p>
-            <div className="relative w-fit max-w-full pb-3 pr-0 sm:pr-24">
+            <div className="relative w-fit max-w-full pb-3">
               <h1 className="font-display text-5xl font-medium uppercase leading-[0.84] text-white sm:text-7xl lg:text-[7.5rem]">
                 <span className="block">SA G2</span>
                 <span className="block">Exhibition</span>
               </h1>
-              <p className="type-index mt-5 font-display text-[11px] font-medium text-white/42 sm:absolute sm:bottom-4 sm:right-0 sm:mt-0">
-                2026 / SA—01
-              </p>
             </div>
             <p className="mt-8 max-w-xl border-l border-white/20 pl-5 text-lg leading-7 text-white/68 sm:text-xl sm:leading-8">
-              Discover Creativity. Share Stories. Experience Inspiration.
+              Two stories. One exhibition.
             </p>
             <div className="mt-10">
               <motion.a
@@ -469,7 +466,7 @@ export default function ExhibitionPage() {
             viewport={{ once: true, margin: "-120px" }}
           >
             <p className="mb-5 text-[11px] font-medium uppercase tracking-[0.06em] text-aurora">
-              00 / About
+              About
             </p>
             <h2 className="font-display text-4xl font-medium leading-[0.96] text-white sm:text-6xl">
               <span className="block">Visual stories,</span>
