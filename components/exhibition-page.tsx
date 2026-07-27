@@ -3,6 +3,7 @@
 import Image from "next/image";
 import {
   ArrowUpRight,
+  Menu,
   Play,
   Users,
   X
@@ -222,6 +223,7 @@ const offshotVideos = [
 
 export default function ExhibitionPage() {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [foundStars, setFoundStars] = useState<number[]>([]);
   const [completionDismissed, setCompletionDismissed] = useState(false);
   const [secretOpen, setSecretOpen] = useState(false);
@@ -282,38 +284,91 @@ export default function ExhibitionPage() {
     <main className="relative overflow-hidden bg-ink text-pearl">
       <PassingLight />
       <motion.header
-        className={`fixed left-1/2 top-4 z-50 w-[calc(100%-32px)] max-w-[1040px] -translate-x-1/2 rounded-[8px] px-3 py-2 transition-all duration-300 sm:top-6 sm:w-[calc(100%-48px)] sm:px-4 ${
+        className={`fixed inset-x-3 top-3 z-50 mx-auto max-w-[1120px] rounded-[8px] px-3 py-2 transition-all duration-300 sm:inset-x-5 sm:top-5 sm:px-4 ${
           scrolled ? "glass" : "border border-white/10 bg-ink/40 backdrop-blur-md"
         }`}
         initial={{ opacity: 0, y: -18 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
       >
-        <nav className="flex items-center justify-between gap-3" aria-label="Primary navigation">
-          <a href="#home" className="flex h-10 items-center gap-2 px-1 font-display text-[13px] font-semibold">
-            <span className="grid h-7 w-7 place-items-center rounded-[6px] bg-white text-[11px] text-ink">
-              SA
+        <nav className="relative flex items-center justify-between gap-4" aria-label="Primary navigation">
+          <a
+            href="#home"
+            className="flex h-10 min-w-0 items-center gap-2.5 px-1 font-display text-[13px] font-semibold"
+            onClick={() => setMenuOpen(false)}
+          >
+            <span className="grid h-7 w-8 shrink-0 place-items-center rounded-[5px] bg-white text-[10px] font-bold text-ink">
+              G2
             </span>
-            <span className="hidden sm:inline">SA G2 Exhibition</span>
+            <span className="truncate">SA Exhibition</span>
           </a>
-          <div className="hidden items-center gap-1 lg:flex">
+          <div className="hidden items-center gap-0.5 lg:flex">
             {navItems.map((item) => (
               <a
                 key={item}
                 href={`#${item.toLowerCase()}`}
-                className="inline-flex h-10 items-center rounded-[6px] px-2.5 text-xs text-white/62 transition hover:bg-white/8 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-aurora"
+                className="inline-flex h-9 items-center rounded-[5px] px-2.5 text-[11px] font-medium text-white/58 transition hover:bg-white/8 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-aurora"
               >
                 {item}
               </a>
             ))}
           </div>
-          <a
-            href="#works"
-            className="group inline-flex h-9 items-center gap-1.5 rounded-[6px] bg-white px-3 text-xs font-semibold text-ink transition hover:bg-aurora focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
-          >
-            View
-            <ArrowUpRight className="h-4 w-4 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-          </a>
+          <div className="flex shrink-0 items-center gap-2">
+            <a
+              href="#works"
+              className="group hidden h-9 items-center gap-1.5 rounded-[5px] bg-white px-3 text-[11px] font-semibold text-ink transition hover:bg-aurora focus:outline-none focus-visible:ring-2 focus-visible:ring-white sm:inline-flex"
+            >
+              View works
+              <ArrowUpRight className="h-3.5 w-3.5 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            </a>
+            <button
+              type="button"
+              className="grid h-9 w-9 place-items-center rounded-[5px] border border-white/12 text-white/75 transition hover:bg-white/8 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-aurora lg:hidden"
+              aria-label={menuOpen ? "Close navigation" : "Open navigation"}
+              aria-expanded={menuOpen}
+              aria-controls="mobile-navigation"
+              onClick={() => setMenuOpen((current) => !current)}
+            >
+              {menuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+            </button>
+          </div>
+
+          <AnimatePresence>
+            {menuOpen ? (
+              <motion.div
+                id="mobile-navigation"
+                className="absolute left-0 right-0 top-[calc(100%+12px)] overflow-hidden rounded-[8px] border border-white/10 bg-[#0d0d0d]/96 p-2 shadow-2xl backdrop-blur-xl lg:hidden"
+                initial={{ opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.2 }}
+              >
+                <div className="grid grid-cols-2 gap-1 sm:grid-cols-3">
+                  {navItems.map((item, index) => (
+                    <a
+                      key={item}
+                      href={`#${item.toLowerCase()}`}
+                      className="flex min-h-11 items-center justify-between rounded-[5px] px-3 text-xs font-medium text-white/68 transition hover:bg-white/8 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-aurora"
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      <span>{item}</span>
+                      <span className="type-index text-[9px] text-white/28">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                    </a>
+                  ))}
+                </div>
+                <a
+                  href="#works"
+                  className="mt-1 flex min-h-11 items-center justify-between rounded-[5px] bg-white px-3 text-xs font-semibold text-ink sm:hidden"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  View works
+                  <ArrowUpRight className="h-4 w-4" />
+                </a>
+              </motion.div>
+            ) : null}
+          </AnimatePresence>
         </nav>
       </motion.header>
 
