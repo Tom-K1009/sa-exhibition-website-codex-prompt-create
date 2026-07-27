@@ -86,6 +86,25 @@ const galleryItems = [
   }
 ];
 
+const teamPhotos = [
+  {
+    src: assetPath("/team/short-film.webp"),
+    label: "Short Film Team"
+  },
+  {
+    src: assetPath("/team/mv.webp"),
+    label: "MV Team"
+  },
+  {
+    src: assetPath("/team/mv-plus.webp"),
+    label: "MV Team / Additional"
+  },
+  {
+    src: assetPath("/team/advertisement.webp"),
+    label: "Advertisement Team"
+  }
+];
+
 const schedule = [
   ["Opening", "Welcome and introduction to SA Exhibition 2026"],
   ["Presentations", "Student-led English presentations and production notes"],
@@ -579,18 +598,16 @@ export default function ExhibitionPage() {
             whileInView="visible"
             viewport={{ once: true, margin: "-120px" }}
           >
-            <div className="absolute inset-0 bg-[#0d0d0d]" />
-            <div className="absolute left-[12%] top-1/2 h-px w-[76%] bg-white/[0.06]" />
-            <div className="absolute inset-0 grid place-items-center text-center">
-              <div>
-                <span className="mx-auto grid h-16 w-16 place-items-center rounded-full border border-white/25 bg-white/10 text-white backdrop-blur">
-                  <Play className="ml-1 h-7 w-7" />
-                </span>
-                <p className="mt-5 text-[11px] font-medium uppercase tracking-[0.05em] text-white/60">
-                  General PV coming soon
-                </p>
-              </div>
-            </div>
+            <video
+              className="h-full w-full bg-black object-contain"
+              controls
+              playsInline
+              preload="metadata"
+              aria-label="SA Exhibition 2026 promotional video"
+            >
+              <source src={assetPath("/pv/final-pv.mp4")} type="video/mp4" />
+              Your browser does not support the video element.
+            </video>
           </motion.div>
         </div>
       </section>
@@ -741,6 +758,44 @@ export default function ExhibitionPage() {
               </div>
             </div>
           </motion.div>
+          <div className="mt-14 flex items-end justify-between gap-6 border-b border-white/12 pb-5">
+            <div>
+              <p className="text-[11px] font-medium uppercase text-white/42">
+                SA English Class
+              </p>
+              <h3 className="mt-2 font-display text-3xl font-medium text-white sm:text-4xl">
+                Production Teams
+              </h3>
+            </div>
+            <p className="type-index shrink-0 text-[10px] text-white/36">04 GROUPS</p>
+          </div>
+          <div className="mt-7 grid gap-x-5 gap-y-9 md:grid-cols-2">
+            {teamPhotos.map((photo, index) => (
+              <motion.figure
+                key={photo.src}
+                variants={fadeIn}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-80px" }}
+              >
+                <div className="relative aspect-[4/3] overflow-hidden rounded-[6px] bg-white/[0.04]">
+                  <Image
+                    src={photo.src}
+                    alt={`${photo.label} group photo`}
+                    fill
+                    sizes="(min-width: 768px) 50vw, 100vw"
+                    className="object-cover transition duration-700 hover:scale-[1.015]"
+                  />
+                </div>
+                <figcaption className="mt-3 flex items-center justify-between border-t border-white/10 pt-3">
+                  <span className="text-sm font-medium text-white/78">{photo.label}</span>
+                  <span className="type-index text-[10px] text-white/34">
+                    {String(index + 1).padStart(2, "0")} / 04
+                  </span>
+                </figcaption>
+              </motion.figure>
+            ))}
+          </div>
         </div>
       </section>
 
