@@ -47,7 +47,7 @@ const screeningWorks: ScreeningWork[] = [
   {
     id: "SA—MV01",
     category: "Music Video",
-    title: "MV",
+    title: "Title TBA",
     videoSrc: null
   }
 ];
@@ -112,40 +112,33 @@ const fadeIn: Variants = {
 };
 
 function SectionTitle({
-  index,
   eyebrow,
   title,
   body
 }: {
-  index: string;
   eyebrow: string;
   title: string;
   body?: string;
 }) {
   return (
     <motion.div
-      className="mb-16 grid gap-5 border-t border-white/12 pt-5 md:grid-cols-[96px_1fr] md:gap-8"
+      className="mb-16 border-t border-white/12 pt-5"
       variants={fadeIn}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-120px" }}
     >
-      <p className="type-index font-display text-[11px] font-medium text-white/36">
-        {index} / 05
+      <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.06em] text-aurora">
+        {eyebrow}
       </p>
-      <div>
-        <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.06em] text-aurora">
-          {eyebrow}
+      <h2 className="max-w-4xl font-display text-4xl font-medium leading-[0.96] text-white sm:text-6xl">
+        {title}
+      </h2>
+      {body ? (
+        <p className="mt-6 max-w-2xl text-base leading-7 text-white/58 sm:text-lg sm:leading-8">
+          {body}
         </p>
-        <h2 className="max-w-4xl font-display text-4xl font-medium leading-[0.96] text-white sm:text-6xl">
-          {title}
-        </h2>
-        {body ? (
-          <p className="mt-6 max-w-2xl text-base leading-7 text-white/58 sm:text-lg sm:leading-8">
-            {body}
-          </p>
-        ) : null}
-      </div>
+      ) : null}
     </motion.div>
   );
 }
@@ -373,7 +366,7 @@ export default function ExhibitionPage() {
       </motion.header>
 
       <motion.div
-        className="fixed right-1 top-1/2 z-40 flex -translate-y-1/2 flex-col items-end px-2 py-2 font-sans text-[10px] font-medium tracking-[0.08em] text-white/36 sm:right-3"
+        className="fixed right-3 top-1/2 z-40 hidden -translate-y-1/2 flex-col items-end px-2 py-2 font-sans text-[10px] font-medium tracking-[0.08em] text-white/36 sm:flex"
         aria-live="polite"
         initial={{ opacity: 0, x: 12 }}
         animate={{ opacity: 1, x: 0 }}
@@ -501,7 +494,7 @@ export default function ExhibitionPage() {
 
       <section id="works" className="py-24">
         <div className="section-shell">
-          <SectionTitle index="01" eyebrow="Works" title="Film & Music Video" />
+          <SectionTitle eyebrow="Works" title="Short Film & Music Video" />
           <div className="grid gap-10 lg:grid-cols-2">
             {screeningWorks.map((work, index) => (
               <motion.article
@@ -513,16 +506,17 @@ export default function ExhibitionPage() {
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ delay: index * 0.1 }}
               >
-                <div className="mb-5 flex items-start justify-between gap-5">
-                  <div>
-                    <p className="text-[11px] font-medium uppercase tracking-[0.05em] text-aurora">
-                      {work.category}
-                    </p>
-                    <h3 className="mt-2 font-display text-2xl font-medium leading-tight text-white sm:text-3xl">
-                      {work.title}
-                    </h3>
-                  </div>
-                  <p className="type-index text-[10px] text-white/30">{work.id}</p>
+                <div className="mb-5">
+                  <p className="text-[11px] font-medium uppercase tracking-[0.05em] text-aurora">
+                    {work.category}
+                  </p>
+                  <h3
+                    className={`mt-2 font-display text-2xl font-medium leading-tight sm:text-3xl ${
+                      work.title === "Title TBA" ? "text-white/42" : "text-white"
+                    }`}
+                  >
+                    {work.title}
+                  </h3>
                 </div>
 
                 <div className="relative aspect-video overflow-hidden bg-[#0d0d0d]">
@@ -557,7 +551,6 @@ export default function ExhibitionPage() {
       <section id="making" className="py-24">
         <div className="section-shell">
           <SectionTitle
-            index="02"
             eyebrow="Behind the Scenes"
             title="Pictures from the making process."
             body="Production photographs will document planning, filming, direction, and editing by the SA G2 English Class."
@@ -592,7 +585,6 @@ export default function ExhibitionPage() {
       <section id="pv" className="py-24">
         <div className="section-shell">
           <SectionTitle
-            index="03"
             eyebrow="Exhibition PV"
             title="One preview for the complete exhibition."
             body="The general promotional video will introduce both featured works and the students behind the exhibition."
@@ -620,7 +612,7 @@ export default function ExhibitionPage() {
 
       <section id="schedule" className="py-24">
         <div className="section-shell">
-          <SectionTitle index="04" eyebrow="Schedule" title="Program" />
+          <SectionTitle eyebrow="Schedule" title="Program" />
           <div className="mx-auto max-w-3xl">
             {schedule.map(([title, detail], index) => (
               <motion.div
