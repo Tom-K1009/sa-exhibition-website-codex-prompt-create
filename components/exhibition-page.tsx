@@ -3,14 +3,7 @@
 import Image from "next/image";
 import {
   ArrowUpRight,
-  CalendarDays,
-  Clock3,
-  ExternalLink,
-  GraduationCap,
-  MapPin,
   Play,
-  Ticket,
-  Languages,
   Users,
   X
 } from "lucide-react";
@@ -33,7 +26,6 @@ const navItems = [
   "Works",
   "Making",
   "PV",
-  "Information",
   "Class"
 ];
 
@@ -107,40 +99,6 @@ const schedule = [
   ["Film Screening", "Featured screening of the Shooting Star short film"],
   ["Music Video Screening", "Premiere of the Tokyo Flash inspired music video"],
   ["Closing Ceremony", "Reflections, acknowledgements, and final message"]
-];
-
-const information = [
-  {
-    icon: CalendarDays,
-    label: "Date",
-    value: "August 3, 2026"
-  },
-  {
-    icon: Clock3,
-    label: "Time",
-    value: "11:55 AM"
-  },
-  {
-    icon: Ticket,
-    label: "Admission",
-    value: "Free"
-  },
-  {
-    icon: MapPin,
-    label: "Place",
-    value: "Digital Hollywood University"
-  },
-  {
-    icon: Languages,
-    label: "Language",
-    value: "English"
-  }
-];
-
-const universityInformation = [
-  ["University", "Digital Hollywood University"],
-  ["Campus", "Ochanomizu, Tokyo"],
-  ["Focus", "Digital content and creative education"]
 ];
 
 const fadeIn: Variants = {
@@ -433,7 +391,7 @@ export default function ExhibitionPage() {
             <p className="mt-8 max-w-xl border-l border-white/20 pl-5 text-lg leading-7 text-white/68 sm:text-xl sm:leading-8">
               Discover Creativity. Share Stories. Experience Inspiration.
             </p>
-            <div className="mt-10 flex flex-wrap items-center gap-4">
+            <div className="mt-10">
               <motion.a
                 href="#about"
                 className="inline-flex h-14 items-center gap-3 rounded-[8px] bg-white px-6 font-semibold text-ink shadow-glow transition focus:outline-none focus-visible:ring-2 focus-visible:ring-aurora"
@@ -443,9 +401,6 @@ export default function ExhibitionPage() {
                 Explore Exhibition
                 <ArrowUpRight className="h-5 w-5" />
               </motion.a>
-              <span className="text-sm text-white/58">
-                August 3, 2026 / 11:55 AM / Digital Hollywood University
-              </span>
             </div>
           </motion.div>
         </div>
@@ -639,84 +594,13 @@ export default function ExhibitionPage() {
         </div>
       </section>
 
-      <section id="information" className="relative py-24">
+      <section id="class" className="relative py-24">
         <HiddenStar
           id={2}
           found={foundStars.includes(2)}
-          className="left-[4%] top-24 sm:left-[8%]"
+          className="left-[4%] top-[42%] sm:left-[7%]"
           onFind={findStar}
         />
-        <div className="section-shell">
-          <motion.div
-            className="glass grid gap-4 rounded-[8px] p-5 sm:grid-cols-2 lg:grid-cols-5"
-            variants={fadeIn}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-120px" }}
-          >
-            {information.map((item, index) => {
-              const Icon = item.icon;
-              return (
-                <div key={item.label} className="rounded-[8px] border border-white/10 bg-white/[0.04] p-5">
-                  <Icon className="mb-5 h-5 w-5 text-aurora" aria-hidden="true" />
-                  <div className="flex items-baseline justify-between gap-3">
-                    <p className="text-[11px] font-medium uppercase tracking-[0.05em] text-white/42">
-                      {item.label}
-                    </p>
-                    <p className="type-index font-display text-[10px] text-white/24">0{index + 1}</p>
-                  </div>
-                  <p className="mt-3 font-display text-lg font-medium leading-6 text-white">
-                    {item.value}
-                  </p>
-                </div>
-              );
-            })}
-          </motion.div>
-          <motion.div
-            className="mt-8 flex flex-col items-start justify-between gap-5 rounded-[8px] border border-white/10 bg-white/[0.04] p-6 sm:flex-row sm:items-center"
-            variants={fadeIn}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-120px" }}
-          >
-            <p className="max-w-2xl text-sm leading-7 text-white/62">
-              For more information about the university, please visit the official website.
-            </p>
-            <motion.a
-              href="https://www.dhw.ac.jp/"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex h-12 items-center gap-2 rounded-[8px] bg-white px-5 text-sm font-semibold text-ink transition hover:bg-aurora focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
-              whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              Visit Digital Hollywood University
-              <ExternalLink className="h-4 w-4" />
-            </motion.a>
-          </motion.div>
-          <motion.div
-            className="mt-5 grid gap-px overflow-hidden rounded-[8px] border border-white/10 bg-white/10 md:grid-cols-3"
-            variants={fadeIn}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-120px" }}
-          >
-            {universityInformation.map(([label, value], index) => (
-              <div key={label} className="bg-ink p-6">
-                {index === 0 ? (
-                  <GraduationCap className="mb-5 h-5 w-5 text-aurora" aria-hidden="true" />
-                ) : null}
-                <p className="text-[11px] font-medium uppercase tracking-[0.05em] text-white/42">
-                  {label}
-                </p>
-                <p className="mt-2 leading-7 text-white/76">{value}</p>
-              </div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      <section id="class" className="py-24">
         <div className="section-shell">
           <motion.div
             className="relative overflow-hidden rounded-[8px] border border-white/12 bg-white text-ink"
