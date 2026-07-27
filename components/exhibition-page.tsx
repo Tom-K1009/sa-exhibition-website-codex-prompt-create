@@ -92,12 +92,8 @@ const teamPhotos = [
     label: "Short Film Team"
   },
   {
-    src: assetPath("/team/mv.webp"),
-    label: "MV Team"
-  },
-  {
     src: assetPath("/team/mv-plus.webp"),
-    label: "MV Team / Additional"
+    label: "MV Team"
   },
   {
     src: assetPath("/team/advertisement.webp"),
@@ -767,7 +763,7 @@ export default function ExhibitionPage() {
                 Production Teams
               </h3>
             </div>
-            <p className="type-index shrink-0 text-[10px] text-white/36">04 GROUPS</p>
+            <p className="type-index shrink-0 text-[10px] text-white/36">03 GROUPS</p>
           </div>
           <div className="mt-7 grid gap-x-5 gap-y-9 md:grid-cols-2">
             {teamPhotos.map((photo, index) => (
@@ -790,7 +786,7 @@ export default function ExhibitionPage() {
                 <figcaption className="mt-3 flex items-center justify-between border-t border-white/10 pt-3">
                   <span className="text-sm font-medium text-white/78">{photo.label}</span>
                   <span className="type-index text-[10px] text-white/34">
-                    {String(index + 1).padStart(2, "0")} / 04
+                    {String(index + 1).padStart(2, "0")} / 03
                   </span>
                 </figcaption>
               </motion.figure>
