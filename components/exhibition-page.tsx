@@ -550,7 +550,7 @@ export default function ExhibitionPage() {
             index="02"
             eyebrow="Behind the Scenes"
             title="Pictures from the making process."
-            body="Production photographs will document planning, filming, direction, and editing by the SA English Class."
+            body="Production photographs will document planning, filming, direction, and editing by the SA G2 English Class."
           />
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {galleryItems.map((item, index) => (
@@ -647,7 +647,6 @@ export default function ExhibitionPage() {
           onFind={findStar}
         />
         <div className="section-shell">
-          <SectionTitle index="05" eyebrow="Information" title="Event details." />
           <motion.div
             className="glass grid gap-4 rounded-[8px] p-5 sm:grid-cols-2 lg:grid-cols-5"
             variants={fadeIn}
@@ -730,14 +729,14 @@ export default function ExhibitionPage() {
             <div className="relative grid gap-8 p-8 sm:p-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
               <div>
                 <p className="mb-5 text-[11px] font-medium uppercase tracking-[0.05em] text-midnight/56">
-                  SA—06 / Class Information
+                  SA—G2 / Class Information
                 </p>
                 <h2 className="font-display text-4xl font-medium leading-[0.96] sm:text-6xl">
                   <span className="block">Created by students,</span>
                   <span className="block text-midnight/54">together.</span>
                 </h2>
                 <p className="mt-5 max-w-xl text-lg leading-8 text-midnight/68">
-                  SA English Class students planned and produced the exhibition,
+                  SA G2 English Class students planned and produced the exhibition,
                   from visual storytelling and filming to English presentations.
                 </p>
               </div>
@@ -746,7 +745,7 @@ export default function ExhibitionPage() {
                 <p className="text-[11px] uppercase tracking-[0.05em] text-white/44">
                   Organized by
                 </p>
-                <p className="mt-3 text-2xl font-semibold">SA English Class</p>
+                <p className="mt-3 text-2xl font-semibold">SA G2 English Class</p>
                 <p className="mt-2 text-white/58">Digital Hollywood University</p>
                 <p className="mt-5 border-t border-white/10 pt-5 text-sm leading-6 text-white/54">
                   Member profiles and individual roles will be added here.
@@ -757,7 +756,7 @@ export default function ExhibitionPage() {
           <div className="mt-14 flex items-end justify-between gap-6 border-b border-white/12 pb-5">
             <div>
               <p className="text-[11px] font-medium uppercase text-white/42">
-                SA English Class
+                SA G2 English Class
               </p>
               <h3 className="mt-2 font-display text-3xl font-medium text-white sm:text-4xl">
                 Production Teams
@@ -808,7 +807,7 @@ export default function ExhibitionPage() {
             <span className="block">Exhibition 2026</span>
           </p>
           <p>Digital Hollywood University</p>
-          <p>Designed and Developed by SA English Class</p>
+          <p>Designed and Developed by SA G2 English Class</p>
         </div>
       </footer>
 
