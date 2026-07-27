@@ -18,11 +18,11 @@ export const metadata: Metadata = {
   metadataBase: new URL(
     "https://sa-exhibition-2026.netlify.app/"
   ),
-  title: "SA Exhibition 2026 | Digital Hollywood University",
+  title: "SA G2 Exhibition 2026 | Digital Hollywood University",
   description:
-    "SA Exhibition 2026 is a premium student showcase from Digital Hollywood University featuring English storytelling through film, music video, and digital media.",
+    "SA G2 Exhibition 2026 is a premium student showcase from Digital Hollywood University featuring English storytelling through film, music video, and digital media.",
   keywords: [
-    "SA Exhibition 2026",
+    "SA G2 Exhibition 2026",
     "Digital Hollywood University",
     "student exhibition",
     "music video",
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     "English class"
   ],
   openGraph: {
-    title: "SA Exhibition 2026",
+    title: "SA G2 Exhibition 2026",
     description:
       "Discover Creativity. Share Stories. Experience Inspiration.",
     type: "website",

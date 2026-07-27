@@ -94,7 +94,7 @@ const teamPhotos = [
 ];
 
 const schedule = [
-  ["Opening", "Welcome and introduction to SA Exhibition 2026"],
+  ["Opening", "Welcome and introduction to SA G2 Exhibition 2026"],
   ["Presentations", "Student-led English presentations and production notes"],
   ["Film Screening", "Featured screening of the Shooting Star short film"],
   ["Music Video Screening", "Premiere of the Tokyo Flash inspired music video"],
@@ -294,7 +294,7 @@ export default function ExhibitionPage() {
             <span className="grid h-7 w-7 place-items-center rounded-[6px] bg-white text-[11px] text-ink">
               SA
             </span>
-            <span className="hidden sm:inline">SA Exhibition</span>
+            <span className="hidden sm:inline">SA G2 Exhibition</span>
           </a>
           <div className="hidden items-center gap-1 lg:flex">
             {navItems.map((item) => (
@@ -381,7 +381,7 @@ export default function ExhibitionPage() {
             </p>
             <div className="relative w-fit max-w-full pb-3 pr-0 sm:pr-24">
               <h1 className="font-display text-5xl font-medium uppercase leading-[0.84] text-white sm:text-7xl lg:text-[7.5rem]">
-                <span className="block">SA</span>
+                <span className="block">SA G2</span>
                 <span className="block">Exhibition</span>
               </h1>
               <p className="type-index mt-5 font-display text-[11px] font-medium text-white/42 sm:absolute sm:bottom-4 sm:right-0 sm:mt-0">
@@ -436,7 +436,7 @@ export default function ExhibitionPage() {
             viewport={{ once: true, margin: "-120px" }}
           >
             <p className="text-lg leading-9 text-white/74">
-              SA Exhibition is a creative showcase where students of Digital
+              SA G2 Exhibition is a creative showcase where students of Digital
               Hollywood University present visual storytelling projects in
               English through filmmaking, music videos, and digital media.
             </p>
@@ -554,7 +554,7 @@ export default function ExhibitionPage() {
               controls
               playsInline
               preload="metadata"
-              aria-label="SA Exhibition 2026 promotional video"
+              aria-label="SA G2 Exhibition 2026 promotional video"
             >
               <source src={assetPath("/pv/final-pv.mp4")} type="video/mp4" />
               Your browser does not support the video element.
@@ -687,7 +687,7 @@ export default function ExhibitionPage() {
         />
         <div className="section-shell flex flex-col gap-4 text-sm text-white/54 sm:flex-row sm:items-center sm:justify-between">
           <p className="font-display font-medium uppercase leading-tight text-white">
-            <span className="block">SA</span>
+            <span className="block">SA G2</span>
             <span className="block">Exhibition 2026</span>
           </p>
           <p>Digital Hollywood University</p>
