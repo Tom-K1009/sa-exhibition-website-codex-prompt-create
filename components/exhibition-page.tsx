@@ -81,12 +81,12 @@ const galleryItems = [
 
 const teamPhotos = [
   {
-    src: assetPath("/team/short-film-optimized.webp"),
-    label: "Short Film Team"
-  },
-  {
     src: assetPath("/team/mv-plus-optimized.webp"),
     label: "MV Team"
+  },
+  {
+    src: assetPath("/team/short-film-team-2026.webp"),
+    label: "Short Film Team"
   },
   {
     src: assetPath("/team/advertisement-optimized.webp"),
@@ -96,10 +96,29 @@ const teamPhotos = [
 
 const schedule = [
   ["Opening", "Welcome and introduction to SA G2 Exhibition 2026"],
-  ["Presentations", "Student-led English presentations and production notes"],
-  ["Film Screening", "Featured screening of the Shooting Star short film"],
-  ["Music Video Screening", "Premiere of the Tokyo Flash inspired music video"],
+  ["Music Video Presentation", "Tokyo Flash screening and production notes"],
+  ["Short Film Presentation", "Meteor screening and production notes"],
+  ["Advertisement Presentation", "Exhibition promotion and campaign presentation"],
   ["Closing Ceremony", "Reflections, acknowledgements, and final message"]
+];
+
+const classCredits = [
+  "Yonyon",
+  "Aran",
+  "Yuino",
+  "Sayuki",
+  "Ziyi",
+  "Nao",
+  "Karina",
+  "Tom",
+  "Seio",
+  "Kojiro",
+  "Nobusuke",
+  "Rehan",
+  "Ayaka",
+  "Kai",
+  "Haku Nonoichiya",
+  "Niina"
 ];
 
 const fadeIn: Variants = {
@@ -318,8 +337,8 @@ export default function ExhibitionPage() {
       <motion.header
         className={`fixed inset-x-3 top-3 z-50 mx-auto max-w-[1120px] rounded-[8px] px-3 py-2 transition-all duration-300 sm:inset-x-5 sm:top-5 sm:px-4 ${
           scrolled
-            ? "border border-white/10 bg-[#0a0a0a]/85 shadow-[0_18px_60px_rgba(0,0,0,0.32)] backdrop-blur-xl"
-            : "border border-white/10 bg-ink/40 backdrop-blur-md"
+            ? "border border-white/10 bg-[#0a0a0a] shadow-[0_18px_60px_rgba(0,0,0,0.38)]"
+            : "border border-white/10 bg-[#0a0a0a]"
         }`}
         initial={{ opacity: 0, y: -18 }}
         animate={{ opacity: 1, y: 0 }}
@@ -371,7 +390,7 @@ export default function ExhibitionPage() {
             {menuOpen ? (
               <motion.div
                 id="mobile-navigation"
-                className="absolute left-0 right-0 top-[calc(100%+12px)] overflow-hidden rounded-[8px] border border-white/10 bg-[#0d0d0d]/96 p-2 shadow-2xl backdrop-blur-xl lg:hidden"
+                className="absolute left-0 right-0 top-[calc(100%+12px)] overflow-hidden rounded-[8px] border border-white/12 bg-[#0a0a0a] p-2 shadow-2xl lg:hidden"
                 initial={{ opacity: 0, y: -8 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }}
@@ -755,6 +774,35 @@ export default function ExhibitionPage() {
               </motion.figure>
             ))}
           </div>
+          <motion.div
+            className="mt-16 border-t border-white/12 pt-5"
+            variants={fadeIn}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+          >
+            <div className="flex items-end justify-between gap-6">
+              <div>
+                <p className="text-[11px] font-medium uppercase text-white/42">
+                  SA G2 English Class
+                </p>
+                <h3 className="mt-2 font-display text-3xl font-medium text-white sm:text-4xl">
+                  Credits
+                </h3>
+              </div>
+              <p className="type-index text-[10px] text-white/32">16 MEMBERS</p>
+            </div>
+            <ul className="mt-7 grid grid-cols-2 border-t border-white/10 sm:grid-cols-3 lg:grid-cols-4">
+              {classCredits.map((name) => (
+                <li
+                  key={name}
+                  className="border-b border-white/10 py-3 pr-3 text-sm text-white/66"
+                >
+                  {name}
+                </li>
+              ))}
+            </ul>
+          </motion.div>
         </div>
       </section>
 
