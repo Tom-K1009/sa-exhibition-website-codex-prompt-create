@@ -3,6 +3,8 @@
 import Image from "next/image";
 import {
   ArrowUpRight,
+  ChevronLeft,
+  ChevronRight,
   Menu,
   Play,
   Users,
@@ -52,30 +54,44 @@ const screeningWorks: ScreeningWork[] = [
   }
 ];
 
-const galleryItems = [
+const makingGalleries = [
   {
-    src: assetPath("/tokyo-flash-mv-optimized.webp"),
-    caption: "Location study and visual planning"
+    eyebrow: "Behind the Scenes",
+    title: "Short Film Concept Art",
+    body: "Visual studies exploring the atmosphere, light, and quiet emotion of Meteor.",
+    items: [
+      {
+        src: assetPath("/shooting-stars-film-optimized.webp"),
+        caption: "Atmosphere study"
+      },
+      {
+        src: assetPath("/shooting-stars-film-optimized.webp"),
+        caption: "Light and color study"
+      },
+      {
+        src: assetPath("/shooting-stars-film-optimized.webp"),
+        caption: "Meteor visual concept"
+      }
+    ]
   },
   {
-    src: assetPath("/tokyo-flash-mv-optimized.webp"),
-    caption: "Music video production"
-  },
-  {
-    src: assetPath("/shooting-stars-film-optimized.webp"),
-    caption: "Short film production"
-  },
-  {
-    src: assetPath("/tokyo-flash-mv-optimized.webp"),
-    caption: "Lighting and camera test"
-  },
-  {
-    src: assetPath("/shooting-stars-film-optimized.webp"),
-    caption: "On-set direction"
-  },
-  {
-    src: assetPath("/tokyo-flash-mv-optimized.webp"),
-    caption: "Editing and post-production"
+    eyebrow: "Music Video",
+    title: "MV Production Stills",
+    body: "Photography from the making of Tokyo Flash, including location studies, filming, and production moments.",
+    items: [
+      {
+        src: assetPath("/tokyo-flash-mv-optimized.webp"),
+        caption: "Location study"
+      },
+      {
+        src: assetPath("/tokyo-flash-mv-optimized.webp"),
+        caption: "Filming moment"
+      },
+      {
+        src: assetPath("/tokyo-flash-mv-optimized.webp"),
+        caption: "Production still"
+      }
+    ]
   }
 ];
 
@@ -130,6 +146,11 @@ const fadeIn: Variants = {
   }
 };
 
+type GalleryItem = {
+  src: string;
+  caption: string;
+};
+
 function SectionTitle({
   eyebrow,
   title,
@@ -159,6 +180,111 @@ function SectionTitle({
         </p>
       ) : null}
     </motion.div>
+  );
+}
+
+function PhotoCarousel({ items, label }: { items: GalleryItem[]; label: string }) {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const activeItem = items[activeIndex];
+
+  const selectPrevious = () => {
+    setActiveIndex((current) => (current - 1 + items.length) % items.length);
+  };
+
+  const selectNext = () => {
+    setActiveIndex((current) => (current + 1) % items.length);
+  };
+
+  return (
+    <div>
+      <div className="relative aspect-[4/3] overflow-hidden rounded-[8px] bg-white/5 sm:aspect-[16/9]">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={`${label}-${activeIndex}`}
+            className="absolute inset-0"
+            initial={{ opacity: 0, scale: 1.015 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.42, ease: "easeOut" }}
+          >
+            <Image
+              src={activeItem.src}
+              alt={activeItem.caption}
+              fill
+              loading="lazy"
+              sizes="(min-width: 1280px) 1200px, (min-width: 640px) 92vw, 100vw"
+              className="object-cover"
+            />
+          </motion.div>
+        </AnimatePresence>
+
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/75 to-transparent" />
+        <div className="absolute inset-x-4 bottom-4 flex items-end justify-between gap-4 sm:inset-x-6 sm:bottom-6">
+          <div>
+            <p className="type-index text-[10px] text-white/44">
+              {String(activeIndex + 1).padStart(2, "0")} /{" "}
+              {String(items.length).padStart(2, "0")}
+            </p>
+            <p className="mt-1 text-sm font-semibold text-white sm:text-base">
+              {activeItem.caption}
+            </p>
+          </div>
+
+          {items.length > 1 ? (
+            <div className="flex shrink-0 gap-2">
+              <button
+                type="button"
+                aria-label={`Previous ${label} photo`}
+                onClick={selectPrevious}
+                className="grid h-10 w-10 place-items-center rounded-full border border-white/25 bg-black/35 text-white/75 backdrop-blur-sm transition hover:border-white/55 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              >
+                <ChevronLeft size={18} aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                aria-label={`Next ${label} photo`}
+                onClick={selectNext}
+                className="grid h-10 w-10 place-items-center rounded-full border border-white/25 bg-black/35 text-white/75 backdrop-blur-sm transition hover:border-white/55 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              >
+                <ChevronRight size={18} aria-hidden="true" />
+              </button>
+            </div>
+          ) : null}
+        </div>
+      </div>
+
+      <div
+        className="mt-4 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-3"
+        aria-label={`${label} photo selection`}
+      >
+        {items.map((item, index) => (
+          <button
+            key={`${label}-${item.caption}-${index}`}
+            type="button"
+            aria-label={`Show ${item.caption}`}
+            aria-pressed={index === activeIndex}
+            onClick={() => setActiveIndex(index)}
+            className={`group relative aspect-[4/3] w-36 shrink-0 snap-start overflow-hidden rounded-[6px] border transition sm:w-48 ${
+              index === activeIndex
+                ? "border-white/75 opacity-100"
+                : "border-white/10 opacity-45 hover:border-white/35 hover:opacity-85"
+            } focus:outline-none focus-visible:ring-2 focus-visible:ring-white`}
+          >
+            <Image
+              src={item.src}
+              alt=""
+              fill
+              loading="lazy"
+              sizes="192px"
+              className="object-cover transition duration-500 group-hover:scale-105"
+            />
+            <span className="absolute bottom-2 left-2 type-index text-[9px] text-white/70">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+          </button>
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -245,8 +371,7 @@ function HiddenStar({
 const secretFutureSections = [
   "Behind-the-scenes photos",
   "Offshots",
-  "Unused ideas",
-  "Member comments"
+  "NG Collection"
 ];
 
 const offshotVideos = [
@@ -613,36 +738,16 @@ export default function ExhibitionPage() {
 
       <section id="making" className="py-24">
         <div className="section-shell">
-          <SectionTitle
-            eyebrow="Behind the Scenes"
-            title="Pictures from the making process."
-            body="Production photographs will document planning, filming, direction, and editing by the SA G2 English Class."
-          />
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {galleryItems.map((item, index) => (
-              <motion.figure
-                key={`${item.caption}-${index}`}
-                className="group relative aspect-[4/3] overflow-hidden rounded-[8px] bg-white/5"
-                variants={fadeIn}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-100px" }}
-              >
-                <Image
-                  src={item.src}
-                  alt={item.caption}
-                  fill
-                  loading="lazy"
-                  sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                  className="object-cover transition duration-700 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-ink/0 backdrop-blur-0 transition duration-500 group-hover:bg-ink/42 group-hover:backdrop-blur-sm" />
-                <figcaption className="absolute inset-x-0 bottom-0 translate-y-3 p-5 text-sm font-semibold text-white opacity-0 transition duration-500 group-hover:translate-y-0 group-hover:opacity-100">
-                  {item.caption}
-                </figcaption>
-              </motion.figure>
-            ))}
-          </div>
+          {makingGalleries.map((gallery, galleryIndex) => (
+            <div key={gallery.title} className={galleryIndex > 0 ? "mt-28" : undefined}>
+              <SectionTitle
+                eyebrow={gallery.eyebrow}
+                title={gallery.title}
+                body={gallery.body}
+              />
+              <PhotoCarousel items={gallery.items} label={gallery.title} />
+            </div>
+          ))}
         </div>
       </section>
 
@@ -939,7 +1044,7 @@ export default function ExhibitionPage() {
                     key={section}
                     className={`relative min-h-36 bg-[#0a0a0a] p-6 ${section === "Offshots" ? "sm:col-span-2" : ""}`}
                   >
-                    {section === "Unused ideas" ? (
+                    {section === "NG Collection" ? (
                       <motion.button
                         type="button"
                         aria-label="Open secret 02"
