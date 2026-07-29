@@ -1006,10 +1006,11 @@ export default function ExhibitionPage() {
                 <X className="h-4 w-4" />
               </button>
               <Image
-                src={assetPath("/secret/maki-meme.jpg")}
+                src={assetPath("/secret/maki-meme-optimized.webp")}
                 alt="Maki meme with the caption You fell for it, guys!!"
-                width={2304}
-                height={3072}
+                width={1152}
+                height={1536}
+                loading="eager"
                 sizes="(min-width: 640px) 448px, calc(100vw - 40px)"
                 className="max-h-[calc(100vh-64px)] w-full object-contain"
               />
