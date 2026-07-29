@@ -16,7 +16,7 @@ import {
   useScroll,
   useTransform
 } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const assetPath = (path: string) => `${basePath}${path}`;
@@ -279,6 +279,7 @@ export default function ExhibitionPage() {
   const [completionDismissed, setCompletionDismissed] = useState(false);
   const [secretOpen, setSecretOpen] = useState(false);
   const [memeOpen, setMemeOpen] = useState(false);
+  const hiddenImageRef = useRef<HTMLImageElement | null>(null);
   const { scrollY } = useScroll();
   const heroY = useTransform(scrollY, [0, 700], [0, 70]);
   const heroOpacity = useTransform(scrollY, [0, 620], [0.92, 0.42]);
@@ -313,11 +314,13 @@ export default function ExhibitionPage() {
   }, [memeOpen, secretOpen, showCompletion]);
 
   useEffect(() => {
-    if (!secretOpen) return;
+    if (!allFound) return;
 
     const hiddenImage = new window.Image();
+    hiddenImage.decoding = "async";
     hiddenImage.src = assetPath("/secret/maki-meme-optimized.webp");
-  }, [secretOpen]);
+    hiddenImageRef.current = hiddenImage;
+  }, [allFound]);
 
   const findStar = (id: number) => {
     setFoundStars((current) => {
