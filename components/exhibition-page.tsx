@@ -312,6 +312,13 @@ export default function ExhibitionPage() {
     };
   }, [memeOpen, secretOpen, showCompletion]);
 
+  useEffect(() => {
+    if (!secretOpen) return;
+
+    const hiddenImage = new window.Image();
+    hiddenImage.src = assetPath("/secret/maki-meme-optimized.webp");
+  }, [secretOpen]);
+
   const findStar = (id: number) => {
     setFoundStars((current) => {
       if (current.includes(id)) return current;
